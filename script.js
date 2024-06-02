@@ -1,9 +1,11 @@
 const gameContainer = document.getElementById('game-container');
 const grid = document.getElementById('grid');
 const gameOverOverlay = document.getElementById('game-over-overlay');
+const gameOverText = document.getElementById('game-over-text');
 const restartButton = document.getElementById('restart-button');
 const startOverlay = document.getElementById('start-overlay');
 const startButton = document.getElementById('start-button');
+const scoreElement = document.getElementById('score');
 
 const rows = 7;
 const cols = 5;
@@ -15,6 +17,7 @@ let dropInterval;
 let gameOver = false;
 let maxAchievedNumber = 2;
 let allowedNumbers = [2, 4, 8];
+let score = 0;
 
 function initGame() {
   gridData = Array.from({ length: rows }, () => Array(cols).fill(0));
@@ -24,6 +27,8 @@ function initGame() {
   gameOver = false;
   maxAchievedNumber = 2;
   allowedNumbers = [2, 4, 8];
+  score = 0;
+  updateScore(0);
 
   gameOverOverlay.style.display = 'none';
   startOverlay.style.display = 'none';
@@ -61,6 +66,9 @@ function drawGrid() {
       if (gridData[row][col] !== 0) {
         cell.textContent = gridData[row][col];
         cell.style.backgroundColor = getColorForNumber(gridData[row][col]);
+        if (gridData[row][col] === 2048) {
+          displayWinMessage();
+        }
       }
       grid.appendChild(cell);
     }
@@ -122,6 +130,7 @@ function handleCollision(row, col) {
     const newNumber = existingNumber * 2;
     gridData[row][col] = newNumber;
     updateAllowedNumbers(newNumber);
+    updateScore(newNumber);
   } else {
     gridData[row][col] = existingNumber;
     if (row > 0) {
@@ -172,6 +181,7 @@ function mergeColumn(col) {
         gridData[row][col] *= 2;
         gridData[row - 1][col] = 0;
         updateAllowedNumbers(gridData[row][col]);
+        updateScore(gridData[row][col]);
         collapseColumn(col); // Collapse column after merging
         merged = true;
       }
@@ -196,9 +206,22 @@ function checkGameOver() {
       clearInterval(dropInterval);
       gameOver = true;
       gameOverOverlay.style.display = 'flex';
+      gameOverText.textContent = 'Game Over!';
       break;
     }
   }
+}
+
+function displayWinMessage() {
+  clearInterval(dropInterval);
+  gameOver = true;
+  gameOverOverlay.style.display = 'flex';
+  gameOverText.textContent = 'You won! Play again?';
+}
+
+function updateScore(value) {
+  score += value;
+  scoreElement.textContent = score;
 }
 
 function getColorForNumber(number) {
