@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2048 Tetris</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="content-container">
+    <div id="game-container">
+      <div id="grid"></div>
+      <div id="game-over-overlay">
+        <div id="game-over-text">Game Over!</div>
+        <button id="restart-button">Try again</button>
+      </div>
+      <div id="start-overlay">
+        <div id="start-text">Start</div>
+        <button id="start-button">Play</button>
+      </div>
+    </div>
+    <div id="rules-container">
+      <h2>Game Rules</h2>
+      <p>1. Use the arrow keys to move the falling numbers left, right, or down.</p>
+      <p>2. Numbers will combine when they fall on top of each other if they are the same.</p>
+      <p>3. Combined numbers will merge into a single number with double the value.</p>
+      <p>4. The game is over when any column fills up to the top.</p>
+      <div id="score">Score: 0</div> <!-- Score display -->
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
