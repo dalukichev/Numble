@@ -4,7 +4,6 @@ const gameOverOverlay = document.getElementById('game-over-overlay');
 const restartButton = document.getElementById('restart-button');
 const startOverlay = document.getElementById('start-overlay');
 const startButton = document.getElementById('start-button');
-const scoreElement = document.getElementById('score');
 
 const rows = 7;
 const cols = 5;
@@ -16,7 +15,6 @@ let dropInterval;
 let gameOver = false;
 let maxAchievedNumber = 2;
 let allowedNumbers = [2, 4, 8];
-let score = 0;
 
 function initGame() {
   gridData = Array.from({ length: rows }, () => Array(cols).fill(0));
@@ -26,11 +24,9 @@ function initGame() {
   gameOver = false;
   maxAchievedNumber = 2;
   allowedNumbers = [2, 4, 8];
-  score = 0;
 
   gameOverOverlay.style.display = 'none';
   startOverlay.style.display = 'none';
-  updateScore(0);
 
   if (dropInterval) {
     clearInterval(dropInterval);
@@ -125,11 +121,7 @@ function handleCollision(row, col) {
   if (existingNumber === currentNumber) {
     const newNumber = existingNumber * 2;
     gridData[row][col] = newNumber;
-    updateScore(newNumber); // Add to score
     updateAllowedNumbers(newNumber);
-    if (newNumber === 2048) {
-      handleWin();
-    }
   } else {
     gridData[row][col] = existingNumber;
     if (row > 0) {
@@ -138,13 +130,6 @@ function handleCollision(row, col) {
     }
   }
   mergeColumn(col); // Merge column after handling collision
-}
-
-function handleWin() {
-  clearInterval(dropInterval);
-  gameOver = true;
-  gameOverOverlay.style.display = 'flex';
-  gameOverOverlay.querySelector('#game-over-text').textContent = 'You won! Play again';
 }
 
 function updateAllowedNumbers(newNumber) {
@@ -167,11 +152,6 @@ function updateAllowedNumbers(newNumber) {
   }
 }
 
-function updateScore(newPoints) {
-  score += newPoints;
-  scoreElement.textContent = `Score: ${score}`;
-}
-
 function removeNumberFromGrid(number) {
   for (let col = 0; col < cols; col++) {
     for (let row = rows - 1; row >= 0; row--) {
@@ -191,7 +171,6 @@ function mergeColumn(col) {
       if (gridData[row][col] !== 0 && gridData[row][col] === gridData[row - 1][col]) {
         gridData[row][col] *= 2;
         gridData[row - 1][col] = 0;
-        updateScore(gridData[row][col]); // Add to score
         updateAllowedNumbers(gridData[row][col]);
         collapseColumn(col); // Collapse column after merging
         merged = true;
