@@ -111,7 +111,7 @@ function dropNumber() {
       gridData[currentRow][currentCol] = currentNumber;
       updateAllowedNumbers(gridData[currentRow][currentCol]);
     }
-    mergeColumn(currentCol); // Merge column after placing the number
+    mergeColumn(currentCol);
     currentNumber = generateRandomNumber();
     currentCol = Math.floor(cols / 2);
     currentRow = 0;
@@ -137,7 +137,7 @@ function handleCollision(row, col) {
       updateAllowedNumbers(gridData[row - 1][col]);
     }
   }
-  mergeColumn(col); // Merge column after handling collision
+  mergeColumn(col);
 }
 
 function handleWin() {
