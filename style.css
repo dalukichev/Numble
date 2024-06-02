@@ -96,6 +96,32 @@ body {
   background-color: #9d8b79;
 }
 
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#score-container {
+  background-color: #eee4da;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 200px;
+}
+
+#score-container h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #776e65;
+}
+
+#score-container #score {
+  font-size: 32px;
+  color: #776e65;
+}
+
 #rules-container {
   max-width: 300px;
   background-color: #eee4da;
